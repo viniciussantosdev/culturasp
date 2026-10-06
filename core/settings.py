@@ -25,8 +25,13 @@ SECRET_KEY = 'django-insecure-vrve=)y-%&o(&73-=!k!otg=ax#azo*7^s-&ya(4x2+^b6*2$j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.app.github.dev',
+    'https://localhost:8000',
+    'http://localhost:8000'
+]
 
 # Application definition
 
@@ -37,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'eventos',
 ]
+AUTH_USER_MODEL = 'eventos.Usuario'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
