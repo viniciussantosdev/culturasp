@@ -4,13 +4,13 @@
 from rest_framework import serializers
 
 #Importa models que vamos disponibilizar atraves da API
-from . models import Categoria, Usuario, Evento, Interesse
+from .models import Categoria, Usuario, Evento, Interesse
 
 
 #Serializer da categoria
 #Converte os dados do model Categoria para JSON e vice versa
 class CategoriaSerializer(serializers.ModelSerializer):
-    class meta:
+    class Meta:
         #define qual model sera utilizado
         model = Categoria
 
@@ -18,23 +18,22 @@ class CategoriaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
 #Serializer do usuario, permite transformar os dados do usuario em JSON
-        class UsuarioSerializer(serializers.ModelSerializer):
-            class Meta:
-                model = Usuario
-                fields = '__all__'
+class UsuarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = ['id', 'username', 'email', 'tipo']
+
 
 #permite transformar os dados do Evento em JSON
-        class EventosSerializer(serializers.ModelSerializer):
-            class meta:
-                model = Evento
-                fields = '__all__'
+class EventoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Evento
+        fields = '__all__'
+
+
 #converte os dados de interesse para JSON e vice versa
-        class InteresseSerializers(serializers.ModelSerializer):
-            class meta:
-                model = Evento
-                fields = '__all__'
-
-
-        
+class InteresseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Interesse
+        fields = '__all__'
