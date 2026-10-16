@@ -60,6 +60,7 @@ const locais = [
 const categorias = ["Todos", "Museus", "Teatros", "Arte", "Eventos"];
 
 export default function App() {
+  return <h1 className="p-6 text-2xl font-semibold text-marca-azul">CulturaSp</h1>
   const [busca, setBusca] = useState("");
   const [categoriaSelecionada, setCategoriaSelecionada] =
     useState("Todos");
