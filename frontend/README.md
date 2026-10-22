@@ -1,32 +1,53 @@
-# React + TypeScript + Vite
+## Backend — Cultura SP
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+### Tecnologias
 
-Currently, two official plugins are available:
+- Python
+- Django
+- Django REST Framework
+- Banco de dados configurado no projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Como executar localmente
 
-## React Compiler
+1. Entre na pasta `backend`.
+2. Crie e ative o ambiente virtual.
+3. Instale as dependências:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+   ```bash
+   python -m pip install -r requirements.txt
+   ```
 
-## Expanding the Oxlint configuration
+4. Aplique as migrações:
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+   ```bash
+   python manage.py migrate
+   ```
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+5. Carregue os dados iniciais:
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+   ```bash
+   python manage.py loaddata dados_iniciais
+   ```
+
+6. Inicie o servidor:
+
+   ```bash
+   python manage.py runserver
+   ```
+
+### Endereços da API
+
+| Método | Endpoint | Descrição |
+|---|---|---|
+| GET | `/api/eventos/` | Listar eventos |
+| GET | `/api/eventos/?categoria=1` | Filtrar eventos por categoria |
+| GET | `/api/categorias/` | Listar categorias |
+
+**Endereços locais**
+
+- Frontend React: `http://localhost:5173`
+- Backend Django: `http://localhost:8000`
+- API de eventos: `http://localhost:8000/api/eventos/`
+- API de categorias: `http://localhost:8000/api/categorias/`
+
+> Os endpoints documentados devem corresponder às rotas efetivamente configuradas no projeto. Confirme também o nome do parâmetro utilizado pelo filtro antes de publicar esta documentação.

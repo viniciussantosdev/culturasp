@@ -1,0 +1,23 @@
+[
+  {
+    "model": "eventos.categoria",
+    "pk": 1,
+    "fields": {
+      "nome": "Música"
+    }
+  },
+  {
+    "model": "eventos.evento",
+    "pk": 1,
+    "fields": {
+      "titulo": "Festival Cultural",
+      "data": "2026-11-15",
+      "horario": "14:00:00",
+      "local": "Centro Cultural",
+      "descricao": "Evento de exemplo",
+      "gratuito": true,
+      "criado_por": 1,
+      "categorias": [1, 3]
+    }
+  }
+]
