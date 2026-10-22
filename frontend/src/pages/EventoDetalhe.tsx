@@ -1,42 +1,62 @@
 import { useState } from 'react'
+import { Link, useParams } from 'react-router'
+import { eventos } from '../data/eventos'
+import { nomeDaCategoria } from '../data/categorias'
+import { estiloCategoria } from '../lib/cores'
+import { dataLonga, horarioCurto } from '../lib/formatadores'
+import ModalLogin from '../components/ModalLogin'
 
-export default function Login() {
-  const [modo, setModo] = useState<'entrar' | 'criar'>('entrar')
-  const campo = 'h-11 w-full rounded border-2 border-borda px-3'
-  const rotulo = 'mb-1 block text-sm font-semibold'
-  const aba = (ativa: boolean) =>
-    `flex-1 rounded border-2 px-3 py-2 font-semibold ${ativa ? 'border-tinta bg-tinta text-white' : 'border-borda'}`
+export default function EventoDetalhe() {
+  const { id } = useParams()
+  const [modalAberto, setModalAberto] = useState(false)
+  const evento = eventos.find((e) => e.id === Number(id))
+
+  if (!evento) {
+    return (
+      <div>
+        <p className="mb-3">Evento não encontrado.</p>
+        <Link to="/" className="font-semibold underline">Voltar para eventos</Link>
+      </div>
+    )
+  }
 
   return (
-    <div className="mx-auto max-w-sm">
-      <div className="mb-6 flex gap-2" role="group" aria-label="Escolher ação">
-        <button type="button" aria-pressed={modo === 'entrar'} onClick={() => setModo('entrar')} className={aba(modo === 'entrar')}>
-          Entrar
-        </button>
-        <button type="button" aria-pressed={modo === 'criar'} onClick={() => setModo('criar')} className={aba(modo === 'criar')}>
-          Criar conta
-        </button>
-      </div>
+    <article className="max-w-2xl">
+      <Link to="/" className="mb-4 inline-block text-sm text-tinta-suave hover:text-tinta">
+        Voltar para eventos
+      </Link>
+      <ul className="mb-2 flex flex-wrap gap-2">
+        {evento.categorias.map((cid) => {
+          const estilo = estiloCategoria(cid)
+          return (
+            <li key={cid} className={`rounded-full px-3 py-1 text-xs font-semibold ${estilo.fundo} ${estilo.texto}`}>
+              {nomeDaCategoria(cid)}
+            </li>
+          )
+        })}
+      </ul>
+      <h1 className="mb-4 text-4xl font-semibold leading-tight">{evento.titulo}</h1>
+      <dl className="mb-6 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1">
+        <dt className="text-tinta-suave">Data</dt>
+        <dd>{dataLonga(evento.data)}</dd>
+        <dt className="text-tinta-suave">Horário</dt>
+        <dd>{horarioCurto(evento.horario)}</dd>
+        <dt className="text-tinta-suave">Local</dt>
+        <dd>{evento.local}</dd>
+        <dt className="text-tinta-suave">Entrada</dt>
+        <dd>{evento.gratuito ? 'Gratuita' : 'Paga'}</dd>
+      </dl>
+      <p className="mb-6 leading-relaxed">{evento.descricao}</p>
 
-      <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-4">
-        {modo === 'criar' && (
-          <div>
-            <label htmlFor="nome" className={rotulo}>Nome</label>
-            <input id="nome" type="text" className={campo} />
-          </div>
-        )}
-        <div>
-          <label htmlFor="email" className={rotulo}>Email</label>
-          <input id="email" type="email" placeholder="voce@email.com" className={campo} />
-        </div>
-        <div>
-          <label htmlFor="senha" className={rotulo}>Senha</label>
-          <input id="senha" type="password" className={campo} />
-        </div>
-        <button type="submit" className="rounded bg-tinta px-4 py-2 font-semibold text-white">
-          {modo === 'entrar' ? 'Entrar' : 'Criar conta'}
-        </button>
-      </form>
-    </div>
+      {/* Fase 6: aqui vamos checar se o usuário já está logado antes de abrir a janela */}
+      <button
+        type="button"
+        onClick={() => setModalAberto(true)}
+        className="rounded bg-tinta px-5 py-2.5 font-semibold text-white"
+      >
+        Conseguir ingresso
+      </button>
+      <ModalLogin aberto={modalAberto} aoFechar={() => setModalAberto(false)} />
+    </article>
   )
 }

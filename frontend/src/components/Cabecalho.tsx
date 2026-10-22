@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router'
-import simbolo from '../assets/simbolo.png'
+import simbolo from '../assets/simbolo.ico'
 
 export default function Cabecalho() {
   const link = ({ isActive }: { isActive: boolean }) =>
