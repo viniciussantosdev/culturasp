@@ -1,0 +1,21 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+
+# Django
+*.sqlite3
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Variaveis de ambiente locais
+.env
+.env.local
+.env.*.local
+
+# Configuracoes locais do VS Code
+.vscode/
