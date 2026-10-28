@@ -1,3 +1,17 @@
+import { normalizar } from './formatadores'
+
+const porNome: Record<string, Estilo> = {
+  musica: { fundo: 'bg-marca-azul', texto: 'text-white' },
+  teatro: { fundo: 'bg-marca-vermelho', texto: 'text-white' },
+  festival: { fundo: 'bg-marca-amarelo', texto: 'text-tinta' },
+  danca: { fundo: 'bg-marca-amarelo', texto: 'text-tinta' },
+}
+const padrao: Estilo = { fundo: 'bg-tinta', texto: 'text-white' }
+
+export function estiloPorNome(nome: string): Estilo {
+  return porNome[normalizar(nome)] ?? padrao
+}
+
 type Estilo = {fundo: string; texto: string }
 
 const estilos: Record<number, Estilo> = {
