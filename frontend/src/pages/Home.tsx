@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { eventos } from '../data/eventos'
-import { categorias } from '../data/categorias'
+import { useCategorias, useEventos } from '../hooks/useApi'
+import { categoriasDoEvento } from '../lib/categorias'
 import { normalizar } from '../lib/formatadores'
 import CardEvento from '../components/CardEvento'
 import FiltroCategorias from '../components/FiltroCategorias'
@@ -9,13 +9,39 @@ import logo from '../assets/logo.png'
 export default function Home() {
   const [categoria, setCategoria] = useState<number | null>(null)
   const [busca, setBusca] = useState('')
+  const { dados: eventosApi, carregando, erro: erroEventos } = useEventos()
+  const { dados: categoriasApi, erro: erroCategorias } = useCategorias()
 
+  const eventos = eventosApi ?? []
+  const categorias = categoriasApi ?? []
+  const erro = erroEventos ?? erroCategorias
   const termo = normalizar(busca.trim())
   const lista = eventos.filter((e) => {
     const naCategoria = categoria === null || e.categorias.includes(categoria)
     const naBusca = termo === '' || normalizar(`${e.titulo} ${e.local}`).includes(termo)
     return naCategoria && naBusca
   })
+
+  function listaDeEventos() {
+    if (carregando) return <p className="py-6 text-tinta-suave">Carregando eventos...</p>
+    if (erro) return <p className="py-6 text-red-700">{erro}</p>
+    if (lista.length === 0) {
+      return (
+        <p className="py-6 text-tinta-suave">
+          {eventos.length === 0
+            ? 'Ainda não há eventos cadastrados.'
+            : 'Nenhum evento encontrado. Tente outra categoria ou outra busca.'}
+        </p>
+      )
+    }
+    return (
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {lista.map((e) => (
+          <CardEvento key={e.id} evento={e} categorias={categoriasDoEvento(e.categorias, categorias)} />
+        ))}
+      </div>
+    )
+  }
 
   return (
     <>
@@ -43,17 +69,7 @@ export default function Home() {
         <FiltroCategorias categorias={categorias} selecionada={categoria} aoSelecionar={setCategoria} />
       </div>
 
-      {lista.length === 0 ? (
-        <p className="py-6 text-tinta-suave">
-          Nenhum evento encontrado. Tente outra categoria ou outra busca.
-        </p>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {lista.map((e) => (
-            <CardEvento key={e.id} evento={e} />
-          ))}
-        </div>
-      )}
+      {listaDeEventos()}
     </>
   )
 }

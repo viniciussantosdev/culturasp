@@ -1,5 +1,5 @@
 import type { Categoria } from '../types'
-import { estiloCategoria } from '../lib/cores'
+import { estiloPorNome } from '../lib/cores'
 
 type Props = {
   categorias: Categoria[]
@@ -22,7 +22,7 @@ export default function FiltroCategorias({ categorias, selecionada, aoSelecionar
         Todos
       </button>
       {categorias.map((c) => {
-        const estilo = estiloCategoria(c.id)
+        const estilo = estiloPorNome(c.nome)
         const ativo = selecionada === c.id
         return (
           <button

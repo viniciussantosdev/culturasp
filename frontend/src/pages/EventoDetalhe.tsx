@@ -1,24 +1,30 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router'
-import { eventos } from '../data/eventos'
-import { nomeDaCategoria } from '../data/categorias'
-import { estiloCategoria } from '../lib/cores'
+import { useCategorias, useEvento } from '../hooks/useApi'
+import { categoriasDoEvento } from '../lib/categorias'
+import { estiloPorNome } from '../lib/cores'
 import { dataLonga, horarioCurto } from '../lib/formatadores'
 import ModalLogin from '../components/ModalLogin'
 
 export default function EventoDetalhe() {
   const { id } = useParams()
   const [modalAberto, setModalAberto] = useState(false)
-  const evento = eventos.find((e) => e.id === Number(id))
+  const { dados: evento, carregando, erro } = useEvento(id)
+  const { dados: categoriasApi } = useCategorias()
 
-  if (!evento) {
+  if (carregando) return <p className="text-tinta-suave">Carregando evento...</p>
+
+  if (erro || !evento) {
+    const naoEncontrado = !erro || erro.includes('404')
     return (
       <div>
-        <p className="mb-3">Evento não encontrado.</p>
+        <p className="mb-3">{naoEncontrado ? 'Evento não encontrado.' : erro}</p>
         <Link to="/" className="font-semibold underline">Voltar para eventos</Link>
       </div>
     )
   }
+
+  const categorias = categoriasDoEvento(evento.categorias, categoriasApi ?? [])
 
   return (
     <article className="max-w-2xl">
@@ -26,11 +32,11 @@ export default function EventoDetalhe() {
         Voltar para eventos
       </Link>
       <ul className="mb-2 flex flex-wrap gap-2">
-        {evento.categorias.map((cid) => {
-          const estilo = estiloCategoria(cid)
+        {categorias.map((c) => {
+          const estilo = estiloPorNome(c.nome)
           return (
-            <li key={cid} className={`rounded-full px-3 py-1 text-xs font-semibold ${estilo.fundo} ${estilo.texto}`}>
-              {nomeDaCategoria(cid)}
+            <li key={c.id} className={`rounded-full px-3 py-1 text-xs font-semibold ${estilo.fundo} ${estilo.texto}`}>
+              {c.nome}
             </li>
           )
         })}

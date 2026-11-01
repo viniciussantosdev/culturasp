@@ -1,11 +1,12 @@
 import { Link } from 'react-router'
-import type { Evento } from '../types'
-import { nomeDaCategoria } from '../data/categorias'
-import { estiloCategoria } from '../lib/cores'
+import type { Categoria, Evento } from '../types'
+import { estiloPorNome } from '../lib/cores'
 import { diaDoMes, mesAbreviado, horarioCurto } from '../lib/formatadores'
 
-export default function CardEvento({ evento }: { evento: Evento }) {
-  const principal = estiloCategoria(evento.categorias[0])
+type Props = { evento: Evento; categorias: Categoria[] }
+
+export default function CardEvento({ evento, categorias }: Props) {
+  const principal = estiloPorNome(categorias[0]?.nome ?? '')
 
   return (
     <article className="flex flex-col overflow-hidden rounded-md border border-borda bg-white">
@@ -17,10 +18,10 @@ export default function CardEvento({ evento }: { evento: Evento }) {
         </div>
         <div>
           <ul className="mb-1 flex flex-wrap gap-x-3 text-xs text-tinta-suave">
-            {evento.categorias.map((id) => (
-              <li key={id} className="flex items-center gap-1">
-                <span className={`h-2 w-2 rounded-full ${estiloCategoria(id).fundo}`} />
-                {nomeDaCategoria(id)}
+            {categorias.map((c) => (
+              <li key={c.id} className="flex items-center gap-1">
+                <span className={`h-2 w-2 rounded-full ${estiloPorNome(c.nome).fundo}`} />
+                {c.nome}
               </li>
             ))}
           </ul>
