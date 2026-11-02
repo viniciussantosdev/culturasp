@@ -1,5 +1,7 @@
 import { useState } from "react";
+import Admin from "./pages/admin";
 
+const API_URL = "http://127.0.0.1:8000/api";
 const locais = [
   {
     id: 1,
@@ -277,7 +279,9 @@ export default function App() {
           </div>
         </section>
       </main>
-
+<section id="painel-admin">
+  <Admin />
+</section>
       <footer className="bg-gray-950 px-6 py-8 text-center text-white">
         <h2 className="mb-2 text-2xl font-extrabold">
           Cultura SP
