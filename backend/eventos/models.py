@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db import models
 
 
+
 class Categoria(models.Model):
     nome = models.CharField(max_length=100)
 
@@ -46,6 +47,7 @@ class Evento(models.Model):
 
 
 class Interesse(models.Model):
+
     usuario = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -62,3 +64,11 @@ class Interesse(models.Model):
 
     def __str__(self):
         return f"{self.usuario} - {self.evento}"
+    
+    class Meta:
+            constraints = [
+                models.UniqueConstraint(
+                    fields=['usuario', 'evento'],
+                    name='interesse_unico_por_usuario_evento'
+                )
+            ]
