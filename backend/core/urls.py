@@ -1,27 +1,28 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
 from eventos.views import (
-        CategoriaViewSet, UsuarioViewSet, EventoViewSet, InteresseViewSet,
+    CategoriaViewSet,
+    UsuarioViewSet,
+    EventoViewSet,
+    InteresseViewSet,
+    cadastro,
+    login,
 )
-from eventos.views import cadastro, login
 
 router = DefaultRouter()
-router.register(r'categorias', CategoriaViewSet)
-router.register(r'usuarios', UsuarioViewSet)
-router.register(r'eventos', EventoViewSet)
-router.register(r'interesses', InteresseViewSet, basename='interesse')
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-]
+router.register('categorias', CategoriaViewSet)
+router.register('usuarios', UsuarioViewSet)
+router.register('eventos', EventoViewSet)
+router.register('interesses', InteresseViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('api/auth/cadastro/', cadastro),
-    path('api/auth/login/', login),
+    path('api/auth/cadastro/', cadastro, name='cadastro'),
+    path('api/auth/login/', login, name='login'),
 
     path('api/', include(router.urls)),
 ]

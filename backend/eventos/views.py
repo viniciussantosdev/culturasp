@@ -3,11 +3,7 @@ from rest_framework import viewsets, status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import (
-    AllowAny,
-    BasePermission,
-    IsAuthenticated,
-)
+from rest_framework.permissions import AllowAny, BasePermission, IsAuthenticated
 from rest_framework.response import Response
 
 from django.contrib.auth import authenticate, get_user_model
@@ -24,7 +20,6 @@ from .serializers import (
 Usuario = get_user_model()
 
 
-# Verifica se o usuário possui permissões de administrador
 def eh_administrador(usuario):
     return (
         usuario.is_authenticated
@@ -36,13 +31,11 @@ def eh_administrador(usuario):
     )
 
 
-# Permissão para administradores
 class EhAdministrador(BasePermission):
     def has_permission(self, request, view):
         return eh_administrador(request.user)
 
 
-# Categorias: consulta pública e alterações somente para administradores
 class CategoriaViewSet(viewsets.ModelViewSet):
     queryset = Categoria.objects.all()
     serializer_class = CategoriaSerializer
@@ -50,18 +43,15 @@ class CategoriaViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             return [AllowAny()]
-
         return [EhAdministrador()]
 
 
-# Usuários: acesso somente para administradores
 class UsuarioViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
     permission_classes = [EhAdministrador]
 
 
-# Eventos: consulta pública e gerenciamento por administradores
 class EventoViewSet(viewsets.ModelViewSet):
     queryset = Evento.objects.all().order_by('data')
     serializer_class = EventoSerializer
@@ -79,14 +69,12 @@ class EventoViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             return [AllowAny()]
-
         return [EhAdministrador()]
 
     def perform_create(self, serializer):
         serializer.save(criado_por=self.request.user)
 
 
-# Interesses: usuários autenticados podem registrar e consultar seus interesses
 class InteresseViewSet(viewsets.ModelViewSet):
     queryset = Interesse.objects.all()
     serializer_class = InteresseSerializer
@@ -115,7 +103,6 @@ class InteresseViewSet(viewsets.ModelViewSet):
         serializer.save(usuario=self.request.user)
 
 
-# Cadastro de visitantes
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def cadastro(request):
@@ -124,18 +111,15 @@ def cadastro(request):
     if serializer.is_valid():
         usuario = serializer.save()
 
-        return Response(
-            {
-                'mensagem': 'Conta criada com sucesso.',
-                'usuario': {
-                    'id': usuario.id,
-                    'nome': usuario.first_name,
-                    'email': usuario.email,
-                    'tipo': usuario.tipo,
-                }
-            },
-            status=status.HTTP_201_CREATED
-        )
+        return Response({
+            'mensagem': 'Conta criada com sucesso.',
+            'usuario': {
+                'id': usuario.id,
+                'nome': usuario.first_name,
+                'email': usuario.email,
+                'tipo': usuario.tipo
+            }
+        }, status=status.HTTP_201_CREATED)
 
     return Response(
         serializer.errors,
@@ -143,7 +127,6 @@ def cadastro(request):
     )
 
 
-# Login de visitantes e administradores
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login(request):
@@ -158,11 +141,13 @@ def login(request):
 
     try:
         usuario_cadastrado = Usuario.objects.get(email=email)
+
     except Usuario.DoesNotExist:
         return Response(
             {'erro': 'Email ou senha incorretos.'},
             status=status.HTTP_400_BAD_REQUEST
         )
+
     except Usuario.MultipleObjectsReturned:
         return Response(
             {'erro': 'Existem contas com este email duplicado.'},
@@ -191,6 +176,6 @@ def login(request):
             'email': usuario.email,
             'tipo': usuario.tipo,
             'is_staff': usuario.is_staff,
-            'is_superuser': usuario.is_superuser,
+            'is_superuser': usuario.is_superuser
         }
     })

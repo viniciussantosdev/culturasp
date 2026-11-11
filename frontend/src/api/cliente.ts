@@ -1,44 +1,69 @@
- // Endereco principal da API Django
 const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
 
-// Funcao que faz as requisicoes para a API
 async function chamar<T>(
   caminho: string,
-  opcoes?: RequestInit
+  opcoes: RequestInit = {},
+  token?: string
 ): Promise<T> {
+  const headers = new Headers(opcoes.headers)
+
+  if (opcoes.body && !headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/json')
+  }
+
+  if (token) {
+    headers.set('Authorization', `Token ${token}`)
+  }
+
   let resposta: Response
 
   try {
-    // Tenta conectar com o servidor Django
-    resposta = await fetch(`${BASE}${caminho}`, opcoes)
+    resposta = await fetch(`${BASE}${caminho}`, {
+      ...opcoes,
+      headers,
+    })
   } catch {
     throw new Error(
-      'Nao foi possivel conectar a API. O servidor esta ligado?'
+      'Não foi possível conectar à API. Verifique se o servidor está ligado.'
     )
   }
 
-  // Verifica se a API respondeu com erro
+  const dados = await resposta.json().catch(() => null)
+
   if (!resposta.ok) {
-    throw new Error(`A API respondeu com erro ${resposta.status}.`)
+    const mensagem =
+      dados?.erro ||
+      dados?.detail ||
+      dados?.mensagem ||
+      Object.values(dados ?? {})
+        .flat()
+        .find((valor) => typeof valor === 'string') ||
+      `A API respondeu com erro ${resposta.status}.`
+
+    throw new Error(String(mensagem))
   }
 
-  // Converte a resposta para JSON
-  return (await resposta.json()) as T
+  return dados as T
 }
 
-// Busca informacoes na API (GET)
-export function buscar<T>(caminho: string): Promise<T> {
-  return chamar<T>(caminho)
+export function buscar<T>(
+  caminho: string,
+  token?: string
+): Promise<T> {
+  return chamar<T>(caminho, {}, token)
 }
 
-// Envia informacoes para a API (POST)
 export function enviar<T>(
   caminho: string,
-  corpo: unknown
+  corpo: unknown,
+  token?: string
 ): Promise<T> {
-  return chamar<T>(caminho, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(corpo),
-  })
+  return chamar<T>(
+    caminho,
+    {
+      method: 'POST',
+      body: JSON.stringify(corpo),
+    },
+    token
+  )
 }
