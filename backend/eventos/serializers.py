@@ -39,7 +39,14 @@ class CadastroSerializer(serializers.Serializer):
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
-        fields = ['id', 'first_name', 'email', 'tipo']
+        fields = [
+            'id',
+            'first_name',
+            'email',
+            'tipo',
+            'date_joined'
+        ]
+        read_only_fields = ['id', 'date_joined']
 
 
 class CategoriaSerializer(serializers.ModelSerializer):

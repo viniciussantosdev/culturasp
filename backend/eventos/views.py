@@ -1,7 +1,7 @@
 
 from rest_framework import viewsets, status
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny, BasePermission, IsAuthenticated
 from rest_framework.response import Response
@@ -51,6 +51,31 @@ class UsuarioViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UsuarioSerializer
     permission_classes = [EhAdministrador]
 
+    @action(
+        detail=True,
+        methods=['get'],
+        url_path='interesses',
+        permission_classes=[EhAdministrador]
+    )
+    def interesses(self, request, pk=None):
+        usuario = self.get_object()
+
+        consulta = Interesse.objects.filter(
+            usuario=usuario
+        ).select_related(
+            'evento'
+        ).prefetch_related(
+            'evento__categorias'
+        ).order_by('-data_registro')
+
+        serializer = InteresseSerializer(
+            consulta,
+            many=True,
+            context=self.get_serializer_context()
+        )
+
+        return Response(serializer.data)
+
 
 class EventoViewSet(viewsets.ModelViewSet):
     queryset = Evento.objects.all().order_by('data')
@@ -88,6 +113,25 @@ class InteresseViewSet(viewsets.ModelViewSet):
             return consulta
 
         return consulta.filter(usuario=self.request.user)
+
+    @action(
+        detail=False,
+        methods=['get'],
+        url_path='meus',
+        permission_classes=[IsAuthenticated]
+    )
+    def meus(self, request):
+        consulta = Interesse.objects.filter(
+            usuario=request.user
+        ).select_related(
+            'evento'
+        ).prefetch_related(
+            'evento__categorias'
+        ).order_by('-data_registro')
+
+        serializer = self.get_serializer(consulta, many=True)
+
+        return Response(serializer.data)
 
     def perform_create(self, serializer):
         evento = serializer.validated_data['evento']

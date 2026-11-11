@@ -1,3 +1,4 @@
+
 import { Link, NavLink, useNavigate } from 'react-router'
 import simbolo from '../assets/simbolo.ico'
 import { useAuth } from '../context/AuthContext'
@@ -21,6 +22,7 @@ export default function Cabecalho() {
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-5">
         <Link to="/" className="flex items-center gap-2">
           <img src={simbolo} alt="" className="h-8 w-auto" />
+
           <span className="text-xl font-extrabold tracking-tight">
             Cultura<span className="text-marca-vermelho">Sp</span>
           </span>
@@ -31,6 +33,16 @@ export default function Cabecalho() {
             Eventos
           </NavLink>
 
+          <NavLink to="/sobre" className={link}>
+            Sobre nós
+          </NavLink>
+
+          {autenticado && !isAdmin && (
+            <NavLink to="/meus-eventos" className={link}>
+              Meus Eventos
+            </NavLink>
+          )}
+
           {autenticado && isAdmin && (
             <NavLink to="/admin" className={link}>
               Administrador
@@ -39,9 +51,10 @@ export default function Cabecalho() {
 
           {autenticado ? (
             <>
-             <span className="hidden text-tinta-suave sm:inline">
+              <span className="hidden text-tinta-suave sm:inline">
                 Olá, {usuario?.nome || usuario?.email || 'usuário'}!
-             </span>
+              </span>
+
               <button
                 type="button"
                 onClick={sair}
@@ -63,3 +76,4 @@ export default function Cabecalho() {
     </header>
   )
 }
+

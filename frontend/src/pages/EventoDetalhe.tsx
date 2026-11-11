@@ -1,10 +1,16 @@
+
 import { Link, useNavigate, useParams } from 'react-router'
 import { useEventos, useCategorias } from '../hooks/useApi'
 import { estiloCategoria } from '../lib/cores'
 import { dataLonga, horarioCurto } from '../lib/formatadores'
-import { enviar } from '../api/cliente'
+import { buscar, enviar } from '../api/cliente'
 import { useAuth } from '../context/AuthContext'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+type Interesse = {
+  id: number
+  evento: number
+}
 
 export default function EventoDetalhe() {
   const { id } = useParams()
@@ -18,8 +24,52 @@ export default function EventoDetalhe() {
   const [enviando, setEnviando] = useState(false)
   const [mensagem, setMensagem] = useState('')
   const [erroInteresse, setErroInteresse] = useState('')
+  const [jaTemInteresse, setJaTemInteresse] = useState(false)
+  const [verificandoInteresse, setVerificandoInteresse] = useState(true)
 
   const evento = eventos?.find((e) => e.id === Number(id))
+
+  useEffect(() => {
+    let ativo = true
+
+    async function verificarInteresse() {
+      setJaTemInteresse(false)
+
+      if (!autenticado || !token || isAdmin) {
+        setVerificandoInteresse(false)
+        return
+      }
+
+      setVerificandoInteresse(true)
+
+      try {
+        const interesses = await buscar<Interesse[]>(
+          '/api/interesses/meus/',
+          token
+        )
+
+        if (ativo) {
+          setJaTemInteresse(
+            interesses.some((interesse) => interesse.evento === Number(id))
+          )
+        }
+      } catch {
+        if (ativo) {
+          setJaTemInteresse(false)
+        }
+      } finally {
+        if (ativo) {
+          setVerificandoInteresse(false)
+        }
+      }
+    }
+
+    verificarInteresse()
+
+    return () => {
+      ativo = false
+    }
+  }, [id, autenticado, token, isAdmin])
 
   async function conseguirIngresso() {
     if (!autenticado) {
@@ -32,6 +82,8 @@ export default function EventoDetalhe() {
       return
     }
 
+    if (!evento) return
+
     setEnviando(true)
     setMensagem('')
     setErroInteresse('')
@@ -39,10 +91,11 @@ export default function EventoDetalhe() {
     try {
       await enviar(
         '/api/interesses/',
-        { evento: evento!.id },
+        { evento: evento.id },
         token ?? undefined
       )
 
+      setJaTemInteresse(true)
       setMensagem('Seu interesse foi registrado com sucesso!')
     } catch (erro) {
       setErroInteresse(
@@ -119,18 +172,16 @@ export default function EventoDetalhe() {
 
       <p className="mb-6 leading-relaxed">{evento.descricao}</p>
 
-      <button
-        type="button"
-        onClick={conseguirIngresso}
-        disabled={enviando || Boolean(mensagem)}
-        className="rounded bg-tinta px-5 py-2.5 font-semibold text-white disabled:opacity-50"
-      >
-        {enviando
-          ? 'Registrando...'
-          : mensagem
-            ? 'Interesse registrado'
-            : 'Conseguir ingresso'}
-      </button>
+      {!isAdmin && !verificandoInteresse && !jaTemInteresse && (
+        <button
+          type="button"
+          onClick={conseguirIngresso}
+          disabled={enviando}
+          className="rounded bg-tinta px-5 py-2.5 font-semibold text-white disabled:opacity-50"
+        >
+          {enviando ? 'Registrando...' : 'Conseguir ingresso'}
+        </button>
+      )}
 
       {mensagem && (
         <p className="mt-3 text-sm text-green-700">
