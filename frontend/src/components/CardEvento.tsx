@@ -5,7 +5,9 @@ import { estiloCategoria } from '../lib/cores'
 import { diaDoMes, mesAbreviado, horarioCurto } from '../lib/formatadores'
 
 export default function CardEvento({ evento }: { evento: Evento }) {
-  const principal = estiloCategoria(evento.categorias[0])
+  const principal = estiloCategoria(Number(evento.categorias[0]))
+console.log('ID recebido:', evento.categorias[0])
+console.log('Estilo aplicado:', principal)
 
   return (
     <article className="flex flex-col overflow-hidden rounded-md border border-borda bg-white">

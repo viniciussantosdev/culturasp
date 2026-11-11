@@ -59,6 +59,7 @@ class EventoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evento
         fields = '__all__'
+        read_only_fields = ['criado_por']
 
 
 class InteresseSerializer(serializers.ModelSerializer):

@@ -1,4 +1,3 @@
-
 import { Link, useNavigate, useParams } from 'react-router'
 import { useEventos, useCategorias } from '../hooks/useApi'
 import { estiloCategoria } from '../lib/cores'
