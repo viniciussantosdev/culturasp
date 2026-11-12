@@ -1,0 +1,51 @@
+
+services:
+  db:
+    image: postgres:16
+    container_name: culturasp_teste_db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: culturasp
+      POSTGRES_USER: culturasp
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-culturasp}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U culturasp -d culturasp"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    container_name: culturasp_teste_backend
+    restart: unless-stopped
+
+    command: python manage.py runserver 0.0.0.0:8000
+
+    ports:
+      - "8001:8000"
+
+    environment:
+      DB_ENGINE: postgres
+      DB_NAME: culturasp
+      DB_USER: culturasp
+      DB_PASSWORD: ${DB_PASSWORD:-culturasp}
+      DB_HOST: db
+      DB_PORT: 5432
+
+    volumes:
+      - ./backend:/app
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
