@@ -1,0 +1,517 @@
+[
+{
+  "model": "eventos.categoria",
+  "pk": 1,
+  "fields": {
+    "nome": "Música"
+  }
+},
+{
+  "model": "eventos.categoria",
+  "pk": 7,
+  "fields": {
+    "nome": "Teatro"
+  }
+},
+{
+  "model": "eventos.categoria",
+  "pk": 8,
+  "fields": {
+    "nome": "Festival"
+  }
+},
+{
+  "model": "eventos.categoria",
+  "pk": 9,
+  "fields": {
+    "nome": "Dança"
+  }
+},
+{
+  "model": "eventos.categoria",
+  "pk": 10,
+  "fields": {
+    "nome": "Cinema"
+  }
+},
+{
+  "model": "eventos.categoria",
+  "pk": 11,
+  "fields": {
+    "nome": "Exposição"
+  }
+},
+{
+  "model": "eventos.categoria",
+  "pk": 12,
+  "fields": {
+    "nome": "Biblioteca"
+  }
+},
+{
+  "model": "eventos.usuario",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$kuPHdfr5yOErtdlBgWFAlE$EE4Ylru/fInRgEtydpyXJ+OYjOObN35LDAFwFCEabX4=",
+    "last_login": "2026-11-04T16:26:12.285Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-10-06T02:25:48.048Z",
+    "tipo": "visitante",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "eventos.usuario",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$eCnBBcRS32xtzFwxKXkITB$R90aFbV3t8TMSJpYQyJ1WsfnBKOZV7xuBc/4ILeT+cA=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "visitante_teste",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-06T02:33:10Z",
+    "tipo": "visitante",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "eventos.usuario",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$7FCcfAyd49kDWOb4b7lGpC$DyXpwEg1s3kLsFV4q1vJBFIBWO7Xg5DZTubmrmo3iFY=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "vinicius",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-11-07T20:08:36.411Z",
+    "tipo": "visitante",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "eventos.usuario",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$MyDgBiTihlD3C7XPkulWnp$p7wyW7ULIUpEn7REX83zG0HTJS+QaFglS9DgowGdnVA=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "2007viniciussantos@gmail.com",
+    "first_name": "Vinicius",
+    "last_name": "",
+    "email": "2007viniciussantos@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-11-07T20:17:15.974Z",
+    "tipo": "administrador",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "eventos.usuario",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$LKICAFGeHODSQ7IP61fP0n$2Sr+ZR+LI4ck58CtCECSGDG1DB9P5xwVZb03qKsVUUw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "2007viniciussantos@uni9.edu.br",
+    "first_name": "Vinicius Santos",
+    "last_name": "",
+    "email": "2007viniciussantos@uni9.edu.br",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-11-07T20:58:43.937Z",
+    "tipo": "visitante",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 1,
+  "fields": {
+    "titulo": "Festival Cultural",
+    "data": "2026-11-15",
+    "horario": "14:00:00",
+    "local": "Centro Cultural",
+    "descricao": "Evento de exemplo",
+    "gratuito": true,
+    "criado_por": 1,
+    "categorias": [
+      1
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 2,
+  "fields": {
+    "titulo": "BDA - Batalha da Aldeia",
+    "data": "2026-11-19",
+    "horario": "20:00:00",
+    "local": "Parque Ibirapuera",
+    "descricao": "Batalha de rima",
+    "gratuito": true,
+    "criado_por": 1,
+    "categorias": [
+      1
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 3,
+  "fields": {
+    "titulo": "Shrek: O musical",
+    "data": "2027-01-18",
+    "horario": "18:30:00",
+    "local": "Consolação",
+    "descricao": "Shrek the Musical é um espetáculo com músicas de Jeanine Tesori, texto e letras de David Lindsay-Abaire. É baseado no filme Shrek, produzido pela Dreamworks em 2001, e no livro Shrek!, de William Steig, publicado em 1990.",
+    "gratuito": true,
+    "criado_por": 1,
+    "categorias": [
+      7
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 5,
+  "fields": {
+    "titulo": "O Auto da Compadecida",
+    "data": "2026-11-21",
+    "horario": "19:30:00",
+    "local": "Teatro Municipal",
+    "descricao": "Apresentação teatral inspirada na clássica obra de Ariano Suassuna, misturando humor e cultura nordestina.",
+    "gratuito": false,
+    "criado_por": 1,
+    "categorias": [
+      7
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 6,
+  "fields": {
+    "titulo": "Entre Sonhos e Realidade",
+    "data": "2026-11-28",
+    "horario": "20:00:00",
+    "local": "Centro Cultural",
+    "descricao": "Espetáculo contemporâneo sobre relações humanas, escolhas e desafios da vida.",
+    "gratuito": true,
+    "criado_por": 1,
+    "categorias": [
+      7
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 7,
+  "fields": {
+    "titulo": "Risos em Cena",
+    "data": "2026-12-05",
+    "horario": "18:00:00",
+    "local": "Espaço Cultural",
+    "descricao": "Comédia teatral com histórias do cotidiano e situações divertidas.",
+    "gratuito": false,
+    "criado_por": 1,
+    "categorias": [
+      7
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 8,
+  "fields": {
+    "titulo": "Festival Cultura na Praça",
+    "data": "2026-11-14",
+    "horario": "14:00:00",
+    "local": "Praça Central",
+    "descricao": "Festival com apresentações musicais, dança, gastronomia e artistas independentes.",
+    "gratuito": true,
+    "criado_por": 1,
+    "categorias": [
+      8
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 9,
+  "fields": {
+    "titulo": "Festival de Arte Urbana",
+    "data": "2026-11-22",
+    "horario": "10:00:00",
+    "local": "Parque Municipal",
+    "descricao": "Evento dedicado à arte de rua, grafite, dança urbana e cultura hip-hop.",
+    "gratuito": true,
+    "criado_por": 1,
+    "categorias": [
+      1,
+      8,
+      9
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 10,
+  "fields": {
+    "titulo": "Sabores do Brasil",
+    "data": "2026-11-06",
+    "horario": "11:00:00",
+    "local": "Centro de Eventos",
+    "descricao": "Festival gastronômico com comidas típicas, música regional e atividades culturais.",
+    "gratuito": true,
+    "criado_por": 1,
+    "categorias": [
+      1,
+      8
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 11,
+  "fields": {
+    "titulo": "8ª Semana Paulista de Dança",
+    "data": "2027-01-19",
+    "horario": "21:00:00",
+    "local": "MASP - Avenida Paulista, São Paulo.",
+    "descricao": "Mostra de espetáculos de dança com companhias e artistas brasileiros, incluindo dança contemporânea e apresentações gratuitas.",
+    "gratuito": true,
+    "criado_por": 1,
+    "categorias": [
+      7,
+      9
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 12,
+  "fields": {
+    "titulo": "Brasil International Tap Festival",
+    "data": "2026-12-18",
+    "horario": "19:30:00",
+    "local": "Rua Augusta e região do Paraíso, São Paulo.",
+    "descricao": "Festival internacional dedicado ao sapateado americano, com workshops, apresentações, encontros e espetáculos.",
+    "gratuito": true,
+    "criado_por": 1,
+    "categorias": [
+      9
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 13,
+  "fields": {
+    "titulo": "Festival Ritmos de São Paulo",
+    "data": "2026-11-30",
+    "horario": "18:00:00",
+    "local": "Centro Cultural São Paulo – Vergueiro, São Paulo.",
+    "descricao": "Encontro cultural com apresentações de samba, hip-hop, forró, dança contemporânea e outros ritmos brasileiros.",
+    "gratuito": true,
+    "criado_por": 1,
+    "categorias": [
+      9
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 14,
+  "fields": {
+    "titulo": "Puro MPB",
+    "data": "2026-11-29",
+    "horario": "14:00:00",
+    "local": "Rua Doutor Paulo Queiroz, 955",
+    "descricao": "Prepare-se para uma tarde especial, com muita música brasileira e valorização da nossa cultura!🎤",
+    "gratuito": true,
+    "criado_por": 4,
+    "categorias": [
+      1
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 15,
+  "fields": {
+    "titulo": "Mostra de Cinema Brasileiro",
+    "data": "2026-11-26",
+    "horario": "12:00:00",
+    "local": "São Paulo",
+    "descricao": "Exibição de filmes nacionais que destacam a diversidade cultural, as histórias e os talentos do cinema brasileiro.",
+    "gratuito": true,
+    "criado_por": 4,
+    "categorias": [
+      10
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 16,
+  "fields": {
+    "titulo": "Cine Debate: O Futuro do Cinema",
+    "data": "2026-11-30",
+    "horario": "13:00:00",
+    "local": "São Mateus",
+    "descricao": "Sessão especial de cinema seguida de um debate aberto ao público sobre os temas abordados no filme.",
+    "gratuito": true,
+    "criado_por": 4,
+    "categorias": [
+      10
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 17,
+  "fields": {
+    "titulo": "São Paulo em Fotografias",
+    "data": "2026-12-12",
+    "horario": "14:30:00",
+    "local": "São Mateus",
+    "descricao": "Exposição fotográfica que retrata a diversidade, a arquitetura e o cotidiano da cidade de São Paulo.",
+    "gratuito": true,
+    "criado_por": 4,
+    "categorias": [
+      11
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 18,
+  "fields": {
+    "titulo": "Arte que Transforma",
+    "data": "2027-01-18",
+    "horario": "15:00:00",
+    "local": "República",
+    "descricao": "Exposição de pinturas e ilustrações de artistas independentes, valorizando diferentes estilos e expressões artísticas.",
+    "gratuito": true,
+    "criado_por": 4,
+    "categorias": [
+      11
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 19,
+  "fields": {
+    "titulo": "Clube do Livro: Grandes Clássicos",
+    "data": "2027-01-16",
+    "horario": "11:00:00",
+    "local": "Paulista",
+    "descricao": "Encontro para leitura e discussão de grandes obras da literatura, incentivando a troca de ideias entre leitores.",
+    "gratuito": true,
+    "criado_por": 4,
+    "categorias": [
+      12
+    ]
+  }
+},
+{
+  "model": "eventos.evento",
+  "pk": 20,
+  "fields": {
+    "titulo": "Sábado Literário",
+    "data": "2026-11-28",
+    "horario": "12:00:00",
+    "local": "Paulista",
+    "descricao": "Evento aberto ao público com contação de histórias, atividades de leitura e incentivo à literatura para todas as idades.",
+    "gratuito": false,
+    "criado_por": 4,
+    "categorias": [
+      12
+    ]
+  }
+},
+{
+  "model": "eventos.interesse",
+  "pk": 1,
+  "fields": {
+    "usuario": 5,
+    "evento": 10,
+    "data_registro": "2026-11-07T20:59:06.839Z"
+  }
+},
+{
+  "model": "eventos.interesse",
+  "pk": 2,
+  "fields": {
+    "usuario": 5,
+    "evento": 5,
+    "data_registro": "2026-11-07T21:19:44.709Z"
+  }
+},
+{
+  "model": "eventos.interesse",
+  "pk": 3,
+  "fields": {
+    "usuario": 5,
+    "evento": 13,
+    "data_registro": "2026-11-07T21:22:40.056Z"
+  }
+},
+{
+  "model": "eventos.interesse",
+  "pk": 4,
+  "fields": {
+    "usuario": 5,
+    "evento": 1,
+    "data_registro": "2026-11-11T14:54:17.518Z"
+  }
+},
+{
+  "model": "eventos.interesse",
+  "pk": 5,
+  "fields": {
+    "usuario": 5,
+    "evento": 6,
+    "data_registro": "2026-11-11T16:33:08.194Z"
+  }
+},
+{
+  "model": "eventos.interesse",
+  "pk": 6,
+  "fields": {
+    "usuario": 5,
+    "evento": 18,
+    "data_registro": "2026-11-11T18:05:23.105Z"
+  }
+},
+{
+  "model": "eventos.interesse",
+  "pk": 7,
+  "fields": {
+    "usuario": 5,
+    "evento": 16,
+    "data_registro": "2026-11-11T18:22:06.807Z"
+  }
+}
+]

@@ -1,4 +1,3 @@
-
 const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
 
 async function chamar<T>(
@@ -64,6 +63,34 @@ export function enviar<T>(
     {
       method: 'POST',
       body: JSON.stringify(corpo),
+    },
+    token
+  )
+}
+
+export function atualizar<T>(
+  caminho: string,
+  corpo: unknown,
+  token?: string
+): Promise<T> {
+  return chamar<T>(
+    caminho,
+    {
+      method: 'PATCH',
+      body: JSON.stringify(corpo),
+    },
+    token
+  )
+}
+
+export function excluir(
+  caminho: string,
+  token?: string
+): Promise<unknown> {
+  return chamar<unknown>(
+    caminho,
+    {
+      method: 'DELETE',
     },
     token
   )
