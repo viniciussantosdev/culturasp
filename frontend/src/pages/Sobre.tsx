@@ -5,8 +5,8 @@ export default function Sobre() {
   return (
     <main className="mx-auto max-w-5xl px-5 py-12">
       <section className="mb-16">
-        <span className="mb-4 inline-block rounded-full bg-red-50 px-3 py-1 text-sm font-semibold text-marca-vermelho">
-          Sobre o CulturaSP
+        <span className="mb-4 inline-block rounded-full bg-destaque px-3 py-1 text-sm font-semibold text-black">
+          Sobre a CCA São Mateus
         </span>
 
         <h1 className="mb-5 max-w-3xl text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
@@ -14,17 +14,15 @@ export default function Sobre() {
         </h1>
 
         <p className="max-w-2xl text-lg leading-relaxed text-tinta-suave">
-          O CulturaSP é uma plataforma criada para conectar pessoas a
+          A Casa de Cultura São Mateus é uma plataforma criada para conectar pessoas a
           experiências culturais em São Paulo. Nosso objetivo é facilitar a
           descoberta de eventos e aproximar o público da diversidade cultural
           presente em nossa cidade.
         </p>
 
         <Link
-          to="/"
-          className="mt-7 inline-block rounded bg-tinta px-5 py-3 font-semibold text-white transition hover:opacity-90"
-        >
-          Explorar eventos
+to="/"className="mt-7 inline-block rounded bg-black px-5 py-3 font-semibold text-white transition hover:bg-destaque hover:text-black">
+        Explorar eventos
         </Link>
       </section>
 
@@ -108,11 +106,11 @@ export default function Sobre() {
         </p>
 
         <Link
-          to="/"
-          className="inline-block rounded bg-white px-5 py-3 font-semibold text-tinta transition hover:bg-gray-100"
-        >
-          Ver eventos disponíveis
-        </Link>
+      to="/"
+  className="inline-block rounded bg-white px-5 py-3 font-semibold text-black transition hover:bg-destaque hover:text-black"
+>
+      Ver eventos disponíveis
+      </Link>
       </section>
     </main>
   )

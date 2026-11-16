@@ -242,27 +242,28 @@ export default function Admin() {
   }
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10">
+    <main className="mx-auto max-w-6xl px-4 py-10 text-texto">
+
       {/* Cabeçalho */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">
+        <h1 className="text-3xl font-bold text-destaque">
           Painel administrativo
         </h1>
 
-        <p className="mt-2 text-gray-600">
+        <p className="mt-2 text-texto-suave">
           Gerencie os eventos e os usuários cadastrados na plataforma.
         </p>
       </div>
 
       {/* Abas */}
-      <div className="mb-8 flex gap-3 border-b">
+      <div className="mb-8 flex gap-3 border-b border-neutral-700">
         <button
           type="button"
           onClick={() => setAba('eventos')}
-          className={`border-b-2 px-4 py-3 font-semibold ${
+          className={`border-b-2 px-4 py-3 font-semibold transition ${
             aba === 'eventos'
-              ? 'border-blue-600 text-blue-600'
-              : 'border-transparent text-gray-500'
+              ? 'border-destaque text-destaque'
+              : 'border-transparent text-texto-suave hover:text-destaque'
           }`}
         >
           Gerenciar eventos
@@ -271,10 +272,10 @@ export default function Admin() {
         <button
           type="button"
           onClick={() => setAba('usuarios')}
-          className={`border-b-2 px-4 py-3 font-semibold ${
+          className={`border-b-2 px-4 py-3 font-semibold transition ${
             aba === 'usuarios'
-              ? 'border-blue-600 text-blue-600'
-              : 'border-transparent text-gray-500'
+              ? 'border-destaque text-destaque'
+              : 'border-transparent text-texto-suave hover:text-destaque'
           }`}
         >
           Usuários cadastrados
@@ -285,24 +286,27 @@ export default function Admin() {
       {aba === 'eventos' && (
         <section>
           <div className="max-w-3xl">
-            <h2 className="mb-6 text-xl font-bold">
+            <h2 className="mb-6 text-xl font-bold text-destaque">
               {editandoId !== null ? 'Editar evento' : 'Novo evento'}
             </h2>
 
             {erro && (
-              <div className="mb-5 rounded-lg bg-red-100 p-4 text-red-700">
+              <div className="mb-5 rounded-lg border border-red-800 bg-red-950 p-4 text-red-300">
                 {erro}
               </div>
             )}
 
             {mensagem && (
-              <div className="mb-5 rounded-lg bg-green-100 p-4 text-green-700">
+              <div className="mb-5 rounded-lg border border-green-800 bg-green-950 p-4 text-green-300">
                 {mensagem}
               </div>
             )}
 
             {/* Formulário */}
-            <form onSubmit={salvarEvento} className="space-y-5">
+            <form
+              onSubmit={salvarEvento}
+              className="space-y-5 rounded-lg border border-neutral-700 bg-superficie p-6"
+            >
               <div>
                 <label className="mb-2 block font-medium">
                   Título
@@ -312,7 +316,7 @@ export default function Admin() {
                   required
                   value={formulario.titulo}
                   onChange={(e) => atualizarCampo('titulo', e.target.value)}
-                  className="w-full rounded-lg border p-3"
+                  className="w-full rounded-lg border border-neutral-600 bg-neutral-900 p-3 text-white placeholder:text-neutral-500 focus:border-destaque focus:outline-none"
                 />
               </div>
 
@@ -327,7 +331,7 @@ export default function Admin() {
                     type="date"
                     value={formulario.data}
                     onChange={(e) => atualizarCampo('data', e.target.value)}
-                    className="w-full rounded-lg border p-3"
+                    className="w-full rounded-lg border border-neutral-600 bg-neutral-900 p-3 text-white focus:border-destaque focus:outline-none"
                   />
                 </div>
 
@@ -341,7 +345,7 @@ export default function Admin() {
                     type="time"
                     value={formulario.horario}
                     onChange={(e) => atualizarCampo('horario', e.target.value)}
-                    className="w-full rounded-lg border p-3"
+                    className="w-full rounded-lg border border-neutral-600 bg-neutral-900 p-3 text-white focus:border-destaque focus:outline-none"
                   />
                 </div>
               </div>
@@ -355,7 +359,7 @@ export default function Admin() {
                   required
                   value={formulario.local}
                   onChange={(e) => atualizarCampo('local', e.target.value)}
-                  className="w-full rounded-lg border p-3"
+                  className="w-full rounded-lg border border-neutral-600 bg-neutral-900 p-3 text-white placeholder:text-neutral-500 focus:border-destaque focus:outline-none"
                 />
               </div>
 
@@ -369,7 +373,7 @@ export default function Admin() {
                   rows={4}
                   value={formulario.descricao}
                   onChange={(e) => atualizarCampo('descricao', e.target.value)}
-                  className="w-full rounded-lg border p-3"
+                  className="w-full rounded-lg border border-neutral-600 bg-neutral-900 p-3 text-white placeholder:text-neutral-500 focus:border-destaque focus:outline-none"
                 />
               </div>
 
@@ -378,20 +382,20 @@ export default function Admin() {
                   type="checkbox"
                   checked={formulario.gratuito}
                   onChange={(e) => atualizarCampo('gratuito', e.target.checked)}
-                  className="h-4 w-4"
+                  className="h-4 w-4 accent-yellow-400"
                 />
 
                 Evento gratuito
               </label>
 
               {/* Categorias */}
-              <fieldset className="rounded-lg border p-4">
-                <legend className="px-2 font-semibold">
+              <fieldset className="rounded-lg border border-neutral-700 bg-superficie-secundaria p-4">
+                <legend className="px-2 font-semibold text-destaque">
                   Categorias (escolha uma ou mais)
                 </legend>
 
                 {categorias.length === 0 ? (
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-texto-suave">
                     Nenhuma categoria encontrada.
                   </p>
                 ) : (
@@ -409,7 +413,7 @@ export default function Admin() {
                           onChange={() =>
                             alternarCategoria(Number(categoria.id))
                           }
-                          className="h-4 w-4"
+                          className="h-4 w-4 accent-yellow-400"
                         />
 
                         {categoria.nome}
@@ -418,7 +422,7 @@ export default function Admin() {
                   </div>
                 )}
 
-                <p className="mt-3 text-sm text-gray-500">
+                <p className="mt-3 text-sm text-texto-suave">
                   Categorias selecionadas: {formulario.categorias.length}
                 </p>
               </fieldset>
@@ -428,7 +432,7 @@ export default function Admin() {
                 <button
                   type="submit"
                   disabled={carregando}
-                  className="rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+                  className="rounded-lg bg-destaque px-6 py-3 font-semibold text-black transition hover:bg-yellow-300 disabled:opacity-50"
                 >
                   {carregando
                     ? 'Salvando...'
@@ -442,7 +446,7 @@ export default function Admin() {
                     type="button"
                     onClick={cancelarEdicao}
                     disabled={carregando}
-                    className="rounded-lg border px-6 py-3 font-semibold hover:bg-gray-50"
+                    className="rounded-lg border border-neutral-500 px-6 py-3 font-semibold text-texto transition hover:bg-neutral-700"
                   >
                     Cancelar edição
                   </button>
@@ -453,16 +457,16 @@ export default function Admin() {
 
           {/* Lista de eventos */}
           <div className="mt-14">
-            <h2 className="mb-6 text-xl font-bold">
+            <h2 className="mb-6 text-xl font-bold text-destaque">
               Eventos cadastrados
             </h2>
 
             {carregandoEventos ? (
-              <p className="text-gray-500">
+              <p className="text-texto-suave">
                 Carregando eventos...
               </p>
             ) : eventos.length === 0 ? (
-              <p className="text-gray-500">
+              <p className="text-texto-suave">
                 Nenhum evento cadastrado.
               </p>
             ) : (
@@ -470,18 +474,18 @@ export default function Admin() {
                 {eventos.map((evento) => (
                   <div
                     key={evento.id}
-                    className="flex flex-col justify-between gap-4 rounded-lg border p-5 sm:flex-row sm:items-center"
+                    className="flex flex-col justify-between gap-4 rounded-lg border border-neutral-700 bg-superficie p-5 sm:flex-row sm:items-center"
                   >
                     <div className="min-w-0">
-                      <h3 className="font-semibold">
+                      <h3 className="font-semibold text-white">
                         {evento.titulo}
                       </h3>
 
-                      <p className="mt-1 text-sm text-gray-600">
+                      <p className="mt-1 text-sm text-texto-suave">
                         {evento.data} · {evento.horario} · {evento.local}
                       </p>
 
-                      <p className="mt-1 text-sm text-gray-500">
+                      <p className="mt-1 text-sm text-neutral-400">
                         {evento.categorias
                           .map((id) =>
                             categorias.find(
@@ -493,7 +497,7 @@ export default function Admin() {
                           .join(', ')}
                       </p>
 
-                      <span className="mt-2 inline-block text-xs text-gray-500">
+                      <span className="mt-2 inline-block text-xs text-texto-suave">
                         {evento.gratuito ? 'Gratuito' : 'Pago'}
                       </span>
                     </div>
@@ -502,7 +506,7 @@ export default function Admin() {
                       <button
                         type="button"
                         onClick={() => editarEvento(evento)}
-                        className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                        className="rounded-lg bg-destaque px-4 py-2 text-sm font-semibold text-black transition hover:bg-yellow-300"
                       >
                         Editar
                       </button>
@@ -511,7 +515,7 @@ export default function Admin() {
                         type="button"
                         onClick={() => excluirEvento(evento.id)}
                         disabled={excluindoId === evento.id}
-                        className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-50"
+                        className="rounded-lg bg-red-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-800 disabled:opacity-50"
                       >
                         {excluindoId === evento.id
                           ? 'Excluindo...'
@@ -529,18 +533,18 @@ export default function Admin() {
       {/* Aba de usuários */}
       {aba === 'usuarios' && (
         <section>
-          <h2 className="mb-6 text-xl font-bold">
+          <h2 className="mb-6 text-xl font-bold text-destaque">
             Usuários cadastrados
           </h2>
 
           {erroUsuarios && (
-            <p className="mb-4 text-red-600">
+            <p className="mb-4 text-red-400">
               {erroUsuarios}
             </p>
           )}
 
           {usuarios.length === 0 && !erroUsuarios ? (
-            <p className="text-gray-500">
+            <p className="text-texto-suave">
               Nenhum usuário encontrado.
             </p>
           ) : (
@@ -549,13 +553,13 @@ export default function Admin() {
                 <Link
                   key={usuario.id}
                   to={`/admin/usuarios/${usuario.id}`}
-                  className="block rounded-lg border p-4 transition hover:bg-gray-50"
+                  className="block rounded-lg border border-neutral-700 bg-superficie p-4 transition hover:border-destaque hover:bg-superficie-secundaria"
                 >
-                  <p className="font-semibold">
+                  <p className="font-semibold text-white">
                     {usuario.first_name || 'Sem nome'}
                   </p>
 
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-texto-suave">
                     {usuario.email}
                   </p>
                 </Link>

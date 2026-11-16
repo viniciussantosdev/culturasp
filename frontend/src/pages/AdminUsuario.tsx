@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { buscar } from '../api/cliente'
@@ -83,17 +82,20 @@ export default function AdminUsuario() {
   }
 
   if (carregando) {
-    return <p className="text-tinta-suave">Carregando perfil...</p>
+    return <p className="text-texto-suave">Carregando perfil...</p>
   }
 
   if (erro || !usuario) {
     return (
       <div>
-        <p role="alert" className="mb-4 text-sm text-red-600">
+        <p role="alert" className="mb-4 text-sm text-red-500">
           {erro || 'Usuário não encontrado.'}
         </p>
 
-        <Link to="/admin" className="font-semibold underline">
+        <Link
+          to="/admin"
+          className="font-semibold text-destaque underline hover:text-yellow-300"
+        >
           Voltar ao painel
         </Link>
       </div>
@@ -101,20 +103,20 @@ export default function AdminUsuario() {
   }
 
   return (
-    <section>
+    <section className="text-texto">
       <Link
         to="/admin"
-        className="mb-6 inline-block text-sm font-semibold text-tinta-suave hover:text-tinta"
+        className="mb-6 inline-block text-sm font-semibold text-texto-suave transition hover:text-destaque"
       >
         ← Voltar ao painel
       </Link>
 
-      <div className="mb-8 border-b border-borda pb-6">
-        <h1 className="text-3xl font-semibold">
+      <div className="mb-8 border-b border-neutral-700 pb-6">
+        <h1 className="text-3xl font-semibold text-destaque">
           {usuario.first_name || 'Usuário sem nome'}
         </h1>
 
-        <div className="mt-3 space-y-1 text-sm text-tinta-suave">
+        <div className="mt-3 space-y-1 text-sm text-texto-suave">
           <p>Email: {usuario.email}</p>
           <p>Tipo de conta: {usuario.tipo}</p>
           <p>Data de cadastro: {formatarCadastro(usuario.date_joined)}</p>
@@ -122,14 +124,17 @@ export default function AdminUsuario() {
       </div>
 
       <div>
-        <h2 className="mb-2 text-xl font-semibold">Eventos de interesse</h2>
-        <p className="mb-5 text-sm text-tinta-suave">
+        <h2 className="mb-2 text-xl font-semibold text-destaque">
+          Eventos de interesse
+        </h2>
+
+        <p className="mb-5 text-sm text-texto-suave">
           Eventos em que este usuário demonstrou interesse.
         </p>
 
         {eventos.length === 0 ? (
-          <div className="rounded border border-borda p-5">
-            <p className="text-sm text-tinta-suave">
+          <div className="rounded-lg border border-neutral-700 bg-superficie p-5">
+            <p className="text-sm text-texto-suave">
               Este usuário ainda não demonstrou interesse em nenhum evento.
             </p>
           </div>
@@ -138,11 +143,11 @@ export default function AdminUsuario() {
             {eventos.map((evento) => (
               <article
                 key={evento.id}
-                className="rounded border border-borda bg-white p-5"
+                className="rounded-lg border border-black/20 bg-destaque p-5 text-black shadow-sm"
               >
                 <h3 className="text-lg font-semibold">{evento.titulo}</h3>
 
-                <div className="mt-3 space-y-1 text-sm text-tinta-suave">
+                <div className="mt-3 space-y-1 text-sm text-neutral-700">
                   <p>Data: {formatarData(evento.data)}</p>
                   <p>Horário: {evento.horario}</p>
                   <p>Local: {evento.local}</p>
@@ -153,9 +158,9 @@ export default function AdminUsuario() {
 
                 <Link
                   to={`/evento/${evento.id}`}
-                  className="mt-4 inline-block font-semibold text-tinta underline"
+                  className="mt-4 inline-block rounded bg-black px-3 py-2 text-sm font-semibold text-white transition hover:bg-neutral-800"
                 >
-                  Ver evento
+                  Ver evento →
                 </Link>
               </article>
             ))}

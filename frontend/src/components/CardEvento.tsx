@@ -10,7 +10,7 @@ console.log('ID recebido:', evento.categorias[0])
 console.log('Estilo aplicado:', principal)
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-md border border-borda bg-white">
+    <article className="flex flex-col overflow-hidden rounded-md border border-black/20 bg-destaque text-black">
       <div className={`h-2 ${principal.fundo}`} />
       <div className="grid flex-1 grid-cols-[56px_1fr] gap-3 p-4">
         <div className={`self-start rounded px-1 py-2 text-center leading-none ${principal.fundo} ${principal.texto}`}>
@@ -18,7 +18,7 @@ console.log('Estilo aplicado:', principal)
           <span className="text-xs font-semibold">{mesAbreviado(evento.data)}</span>
         </div>
         <div>
-          <ul className="mb-1 flex flex-wrap gap-x-3 text-xs text-tinta-suave">
+          <ul className="mb-1 flex flex-wrap gap-x-3 text-xs text-neutral-700">
             {evento.categorias.map((id) => (
               <li key={id} className="flex items-center gap-1">
                 <span className={`h-2 w-2 rounded-full ${estiloCategoria(id).fundo}`} />
@@ -27,12 +27,12 @@ console.log('Estilo aplicado:', principal)
             ))}
           </ul>
           <h3 className="mb-2 text-lg font-semibold leading-tight">{evento.titulo}</h3>
-          <p className="text-sm text-tinta-suave">
+          <p className="text-sm text-neutral-700">
             {horarioCurto(evento.horario)} · {evento.local}
           </p>
         </div>
       </div>
-      <div className="flex items-center justify-between border-t-2 border-dashed border-borda px-4 py-3">
+      <div className="flex items-center justify-between border-t-2 border-dashed border-black/20 px-4 py-3">
         <span className="text-sm font-semibold">
           {evento.gratuito ? 'Entrada gratuita' : 'Entrada paga'}
         </span>

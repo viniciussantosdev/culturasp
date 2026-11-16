@@ -1,6 +1,5 @@
-
 import { Link, NavLink, useNavigate } from 'react-router'
-import simbolo from '../assets/simbolo.ico'
+import simbolo from '../assets/ccaimagemmenor.png'
 import { useAuth } from '../context/AuthContext'
 
 export default function Cabecalho() {
@@ -9,8 +8,8 @@ export default function Cabecalho() {
 
   const link = ({ isActive }: { isActive: boolean }) =>
     isActive
-      ? 'font-semibold text-tinta'
-      : 'text-tinta-suave hover:text-tinta'
+      ? 'font-semibold text-destaque'
+      : 'text-texto-suave hover:text-destaque'
 
   function sair() {
     logout()
@@ -18,13 +17,13 @@ export default function Cabecalho() {
   }
 
   return (
-    <header className="border-b border-borda bg-white">
+    <header className="border-b border-neutral-800 bg-fundo text-texto">
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-5">
         <Link to="/" className="flex items-center gap-2">
           <img src={simbolo} alt="" className="h-8 w-auto" />
 
-          <span className="text-xl font-extrabold tracking-tight">
-            Cultura<span className="text-marca-vermelho">Sp</span>
+          <span className="text-xl font-extrabold tracking-tight text-white">
+            CCA <span className="text-destaque">São Mateus</span>
           </span>
         </Link>
 
@@ -51,14 +50,13 @@ export default function Cabecalho() {
 
           {autenticado ? (
             <>
-              <span className="hidden text-tinta-suave sm:inline">
+              <span className="hidden text-texto-suave transition-colors hover:text-destaque sm:inline">
                 Olá, {usuario?.nome || usuario?.email || 'usuário'}!
               </span>
-
               <button
                 type="button"
                 onClick={sair}
-                className="rounded border-2 border-tinta px-3 py-1 font-semibold"
+                className="rounded border-2 border-destaque px-3 py-1 font-semibold text-destaque hover:bg-destaque hover:text-black"
               >
                 Sair
               </button>
@@ -66,7 +64,7 @@ export default function Cabecalho() {
           ) : (
             <Link
               to="/login"
-              className="rounded border-2 border-tinta px-3 py-1 font-semibold"
+              className="rounded border-2 border-destaque px-3 py-1 font-semibold text-destaque hover:bg-destaque hover:text-black"
             >
               Entrar
             </Link>
@@ -76,4 +74,3 @@ export default function Cabecalho() {
     </header>
   )
 }
-

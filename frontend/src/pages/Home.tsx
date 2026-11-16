@@ -1,10 +1,9 @@
-
 import { useState } from 'react'
 import { normalizar } from '../lib/formatadores'
 import { useEventos, useCategorias } from '../hooks/useApi'
 import CardEvento from '../components/CardEvento'
 import FiltroCategorias from '../components/FiltroCategorias'
-import logo from '../assets/logo.png'
+import logo from '../assets/casadecultura-logo.jpg'
 
 export default function Home() {
   const [categoria, setCategoria] = useState<number | null>(null)
@@ -54,7 +53,7 @@ export default function Home() {
 
         <img
           src={logo}
-          alt="Logo CulturaSp"
+          alt="Logo CCA São Mateus"
           className="mx-auto hidden w-full max-w-xs md:block"
         />
       </section>

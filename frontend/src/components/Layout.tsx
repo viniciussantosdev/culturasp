@@ -11,7 +11,7 @@ export default function Layout() {
       </main>
 
       <footer className="border-t border-borda py-6 text-center text-sm text-tinta-suave">
-        CulturaSp · Eventos culturais em um só lugar
+        CCA São Mateus · Eventos culturais em um só lugar
       </footer>
     </>
   )

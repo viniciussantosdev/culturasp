@@ -9,7 +9,8 @@ type Props = {
 
 export default function FiltroCategorias({ categorias, selecionada, aoSelecionar }: Props) {
   const base = 'cursor-pointer rounded-full border-2 px-3 py-1 text-sm font-semibold'
-  const inativo = 'border-borda text-tinta hover:border-tinta'
+  const inativo = 'border-borda bg-marca-preto text-white hover:border-destaque'
+
 
   return (
     <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar por categoria">
