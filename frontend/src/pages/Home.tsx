@@ -53,7 +53,7 @@ export default function Home() {
 
         <img
           src={logo}
-          alt="Logo CCA São Mateus"
+          alt="Logo CC São Mateus"
           className="mx-auto hidden w-full max-w-xs md:block"
         />
       </section>

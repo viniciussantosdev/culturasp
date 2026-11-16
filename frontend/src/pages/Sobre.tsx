@@ -6,7 +6,7 @@ export default function Sobre() {
     <main className="mx-auto max-w-5xl px-5 py-12">
       <section className="mb-16">
         <span className="mb-4 inline-block rounded-full bg-destaque px-3 py-1 text-sm font-semibold text-black">
-          Sobre a CCA São Mateus
+          Sobre a Casa de Cultura São Mateus
         </span>
 
         <h1 className="mb-5 max-w-3xl text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">

@@ -23,7 +23,7 @@ export default function Cabecalho() {
           <img src={simbolo} alt="" className="h-8 w-auto" />
 
           <span className="text-xl font-extrabold tracking-tight text-white">
-            CCA <span className="text-destaque">São Mateus</span>
+            Casa De Cultura <span className="text-destaque">São Mateus</span>
           </span>
         </Link>
 
