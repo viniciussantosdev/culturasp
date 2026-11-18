@@ -1,4 +1,3 @@
-
 from rest_framework import viewsets, status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes, action
@@ -7,6 +6,7 @@ from rest_framework.permissions import AllowAny, BasePermission, IsAuthenticated
 from rest_framework.response import Response
 
 from django.contrib.auth import authenticate, get_user_model
+from django.db.models import Count
 
 from .models import Categoria, Evento, Interesse
 from .serializers import (
@@ -75,14 +75,20 @@ class UsuarioViewSet(viewsets.ReadOnlyModelViewSet):
         )
 
         return Response(serializer.data)
-
+        
 
 class EventoViewSet(viewsets.ModelViewSet):
-    queryset = Evento.objects.all().order_by('data')
+    queryset = Evento.objects.all()
     serializer_class = EventoSerializer
 
     def get_queryset(self):
-        queryset = Evento.objects.all().order_by('data')
+        queryset = Evento.objects.annotate(
+            total_inscritos=Count('interesses', distinct=True)
+        ).order_by(
+            '-total_inscritos',
+            'data',
+            'horario'
+        )
 
         categoria_id = self.request.query_params.get('categoria')
 
@@ -90,6 +96,7 @@ class EventoViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(categorias__id=categoria_id)
 
         return queryset.distinct()
+
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:

@@ -56,10 +56,12 @@ class CategoriaSerializer(serializers.ModelSerializer):
 
 
 class EventoSerializer(serializers.ModelSerializer):
+    total_inscritos = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Evento
         fields = '__all__'
-        read_only_fields = ['criado_por']
+        read_only_fields = ['criado_por', 'total_inscritos']
 
 
 class InteresseSerializer(serializers.ModelSerializer):

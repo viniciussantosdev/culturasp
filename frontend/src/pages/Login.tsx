@@ -10,17 +10,19 @@ export default function Login() {
   const [erro, setErro] = useState('')
   const [carregando, setCarregando] = useState(false)
 
-  const { login, cadastrar, isAdmin } = useAuth()
+  const { login, cadastrar } = useAuth()
   const navegar = useNavigate()
 
-  const campo = 'h-11 w-full rounded border-2 border-borda px-3'
+  const campo = 'h-11 w-full rounded border-2 border-borda bg-superficie px-3 text-texto outline-none transition-colors focus:border-destaque'
   const rotulo = 'mb-1 block text-sm font-semibold'
 
+  const animacao = 'transition-all duration-300 hover:scale-105 hover:shadow-[0_0_18px_rgba(254,227,4,0.35)] active:scale-95'
+
   const aba = (ativa: boolean) =>
-    `flex-1 rounded border-2 px-3 py-2 font-semibold ${
+    `flex-1 rounded border-2 px-3 py-2 font-semibold ${animacao} ${
       ativa
-        ? 'border-tinta bg-tinta text-white'
-        : 'border-borda'
+        ? 'border-destaque bg-destaque text-black'
+        : 'border-borda bg-superficie text-texto hover:border-destaque hover:text-destaque'
     }`
 
   async function enviarFormulario(e: React.FormEvent<HTMLFormElement>) {
@@ -35,8 +37,6 @@ export default function Login() {
         await login(email, senha)
       }
 
-      // A sessão já foi atualizada pelo AuthProvider.
-      // O papel do usuário é consultado após a autenticação.
       navegar('/')
     } catch (erro) {
       setErro(
@@ -51,7 +51,7 @@ export default function Login() {
 
   return (
     <div className="mx-auto max-w-sm">
-      <h1 className="mb-6 text-3xl font-semibold">
+      <h1 className="mb-6 text-3xl font-semibold text-texto">
         {modo === 'entrar' ? 'Entrar' : 'Criar conta'}
       </h1>
 
@@ -129,7 +129,7 @@ export default function Login() {
         </div>
 
         {erro && (
-          <p role="alert" className="text-sm text-red-600">
+          <p role="alert" className="text-sm text-red-500">
             {erro}
           </p>
         )}
@@ -137,7 +137,7 @@ export default function Login() {
         <button
           type="submit"
           disabled={carregando}
-          className="rounded bg-tinta px-4 py-2 font-semibold text-white disabled:opacity-50"
+          className={`rounded bg-destaque px-4 py-3 font-bold text-black ${animacao} hover:bg-yellow-300 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-none`}
         >
           {carregando
             ? 'Aguarde...'
@@ -147,11 +147,14 @@ export default function Login() {
         </button>
       </form>
 
-      <p className="mt-5 text-sm text-tinta-suave">
+      <p className="mt-5 text-sm text-texto-suave">
         Ao criar uma conta, você será cadastrado como visitante.
       </p>
 
-      <Link to="/" className="mt-4 inline-block text-sm underline">
+      <Link
+        to="/"
+        className="mt-4 inline-block text-sm text-texto-suave underline transition-colors hover:text-destaque"
+      >
         Voltar para eventos
       </Link>
     </div>
