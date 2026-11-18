@@ -18,7 +18,7 @@ Nosso objetivo é fortalecer a divulgação de iniciativas culturais, valorizar 
 ### Como executar localmente
 
 1. Entre na pasta `backend`.
-2. Crie e ative o ambiente virtual.
+2. Crie e ative o ambiente virtual. (No Powershell: venv\Scripts\Activate)
 3. Instale as dependências:
 
    ```bash
