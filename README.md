@@ -1,3 +1,9 @@
+##Casa de Cultura São Mateus
+
+A Casa de Cultura São Mateus é uma plataforma digital desenvolvida para aproximar a comunidade das atividades culturais da região. O site permite conhecer eventos, consultar informações, explorar categorias e realizar inscrições, facilitando o acesso à cultura, à arte e ao lazer.
+
+Nosso objetivo é fortalecer a divulgação de iniciativas culturais, valorizar os artistas locais e ampliar a participação da população nas atividades promovidas na região de São Mateus, na Zona Leste de São Paulo.
+
 ## Backend — Casa De Cultura São Mateus
 
 ### Tecnologias
