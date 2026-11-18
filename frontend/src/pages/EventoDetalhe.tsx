@@ -11,6 +11,13 @@ type Interesse = {
   evento: number
 }
 
+type Inscrito = {
+  id: number
+  nome: string
+  email: string
+  data_registro: string
+}
+
 export default function EventoDetalhe() {
   const { id } = useParams()
   const navegar = useNavigate()
@@ -25,6 +32,11 @@ export default function EventoDetalhe() {
   const [erroInteresse, setErroInteresse] = useState('')
   const [jaTemInteresse, setJaTemInteresse] = useState(false)
   const [verificandoInteresse, setVerificandoInteresse] = useState(true)
+  const [registrouAgora, setRegistrouAgora] = useState(false)
+
+  const [inscritos, setInscritos] = useState<Inscrito[]>([])
+  const [carregandoInscritos, setCarregandoInscritos] = useState(false)
+  const [erroInscritos, setErroInscritos] = useState('')
 
   const evento = eventos?.find((e) => e.id === Number(id))
 
@@ -33,6 +45,7 @@ export default function EventoDetalhe() {
 
     async function verificarInteresse() {
       setJaTemInteresse(false)
+      setRegistrouAgora(false)
 
       if (!autenticado || !token || isAdmin) {
         setVerificandoInteresse(false)
@@ -70,6 +83,49 @@ export default function EventoDetalhe() {
     }
   }, [id, autenticado, token, isAdmin])
 
+  useEffect(() => {
+    let ativo = true
+
+    async function carregarInscritos() {
+      if (!isAdmin || !token || !evento) {
+        setInscritos([])
+        return
+      }
+
+      setCarregandoInscritos(true)
+      setErroInscritos('')
+
+      try {
+        const dados = await buscar<Inscrito[]>(
+          `/api/eventos/${evento.id}/inscritos/`,
+          token
+        )
+
+        if (ativo) {
+          setInscritos(dados)
+        }
+      } catch (erro) {
+        if (ativo) {
+          setErroInscritos(
+            erro instanceof Error
+              ? erro.message
+              : 'Não foi possível carregar os participantes.'
+          )
+        }
+      } finally {
+        if (ativo) {
+          setCarregandoInscritos(false)
+        }
+      }
+    }
+
+    carregarInscritos()
+
+    return () => {
+      ativo = false
+    }
+  }, [evento?.id, isAdmin, token])
+
   async function conseguirIngresso() {
     if (!autenticado) {
       navegar('/login')
@@ -95,6 +151,7 @@ export default function EventoDetalhe() {
       )
 
       setJaTemInteresse(true)
+      setRegistrouAgora(true)
       setMensagem('Seu interesse foi registrado com sucesso!')
     } catch (erro) {
       setErroInteresse(
@@ -125,6 +182,8 @@ export default function EventoDetalhe() {
       </div>
     )
   }
+
+  const totalInscritos = (evento.total_inscritos ?? 0) + (registrouAgora ? 1 : 0)
 
   return (
     <article className="max-w-2xl">
@@ -171,12 +230,18 @@ export default function EventoDetalhe() {
 
       <p className="mb-6 leading-relaxed">{evento.descricao}</p>
 
+      <div className="mb-6 rounded-lg border border-borda bg-superficie p-4">
+        <p className="font-semibold">
+          {totalInscritos} {totalInscritos === 1 ? 'pessoa inscrita' : 'pessoas inscritas'}
+        </p>
+      </div>
+
       {!isAdmin && !verificandoInteresse && !jaTemInteresse && (
         <button
           type="button"
           onClick={conseguirIngresso}
           disabled={enviando}
-          className="rounded bg-tinta px-5 py-2.5 font-semibold text-white disabled:opacity-50"
+          className="rounded bg-destaque px-4 py-2 font-bold text-black transition-all duration-300 hover:scale-105 hover:bg-yellow-300 hover:shadow-[0_0_18px_rgba(254,227,4,0.35)] active:scale-95"
         >
           {enviando ? 'Registrando...' : 'Conseguir ingresso'}
         </button>
@@ -192,6 +257,55 @@ export default function EventoDetalhe() {
         <p role="alert" className="mt-3 text-sm text-red-600">
           {erroInteresse}
         </p>
+      )}
+
+      {isAdmin && (
+        <section className="mt-8 border-t border-borda pt-6">
+          <h2 className="mb-4 text-xl font-semibold">
+            Participantes inscritos
+          </h2>
+
+          {carregandoInscritos && (
+            <p className="text-tinta-suave">
+              Carregando participantes...
+            </p>
+          )}
+
+          {erroInscritos && (
+            <p role="alert" className="text-sm text-red-600">
+              {erroInscritos}
+            </p>
+          )}
+
+          {!carregandoInscritos && !erroInscritos && inscritos.length === 0 && (
+            <p className="text-tinta-suave">
+              Ainda não há participantes inscritos neste evento.
+            </p>
+          )}
+
+          {!carregandoInscritos && inscritos.length > 0 && (
+            <div className="space-y-3">
+              {inscritos.map((inscrito) => (
+                <div
+                  key={inscrito.id}
+                  className="rounded-lg border border-borda bg-superficie p-4"
+                >
+                  <p className="font-semibold">
+                    {inscrito.nome || 'Nome não informado'}
+                  </p>
+
+                  <p className="text-sm text-tinta-suave">
+                    {inscrito.email}
+                  </p>
+
+                  <p className="mt-2 text-xs text-tinta-suave">
+                    Inscrição em: {new Date(inscrito.data_registro).toLocaleString('pt-BR')}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
       )}
     </article>
   )

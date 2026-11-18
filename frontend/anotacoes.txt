@@ -1,0 +1,34 @@
+CONTAS TESTES DE VISITANTE
+
+geovannacardoso@gmail.com
+Geovanna#009
+
+pedro00oliveira@gmail.com
+pedro123
+
+fabri1987@hotmail.com
+Fabdls#00
+
+silvaandreiacorretora@gmail.com
+Andreia@corretora
+
+leohenriquebonafonte@gmail.com
+Leobona1990
+
+username='admin2'from eventos.models import Usuario
+
+admin = Usuario.objects.create_user(
+    username='admin2',
+    email='admin@gmail.com',
+    password='admin1234',
+    first_name='Administrador',
+    tipo='admin'
+)
+
+admin.is_staff = True
+admin.is_superuser = True
+admin.save()
+
+print('Administrador criado com sucesso!')
+email='admin@gmail.com'
+password='admin1234'

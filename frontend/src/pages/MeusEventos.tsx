@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import { buscar } from '../api/cliente'
@@ -59,35 +58,37 @@ export default function MeusEventos() {
     carregarEventos()
   }, [token])
 
+  const botaoAmarelo =
+    'mt-4 inline-block rounded bg-destaque px-4 py-2 font-bold text-black transition-all duration-300 hover:scale-105 hover:bg-yellow-300 hover:shadow-[0_0_18px_rgba(254,227,4,0.35)] active:scale-95'
+
   return (
     <section>
       <div className="mb-7">
-        <h1 className="text-3xl font-semibold">Meus Eventos</h1>
-        <p className="mt-2 text-tinta-suave">
+        <h1 className="text-3xl font-semibold text-texto">Meus Eventos</h1>
+        <p className="mt-2 text-texto-suave">
           Aqui estão os eventos em que você demonstrou interesse.
         </p>
       </div>
 
       {carregando && (
-        <p className="text-tinta-suave">Carregando seus eventos...</p>
+        <p className="text-texto-suave">Carregando seus eventos...</p>
       )}
 
       {erro && (
-        <p role="alert" className="text-sm text-red-600">
+        <p role="alert" className="text-sm text-red-500">
           {erro}
         </p>
       )}
 
       {!carregando && !erro && eventos.length === 0 && (
-        <div className="rounded border border-borda p-6">
-          <h2 className="font-semibold">Você ainda não tem eventos.</h2>
-          <p className="mt-2 text-sm text-tinta-suave">
+        <div className="rounded border border-borda bg-superficie p-6">
+          <h2 className="font-semibold text-texto">
+            Você ainda não tem eventos.
+          </h2>
+          <p className="mt-2 text-sm text-texto-suave">
             Quando demonstrar interesse em um evento, ele aparecerá nesta página.
           </p>
-          <Link
-            to="/"
-            className="mt-4 inline-block font-semibold text-tinta underline"
-          >
+          <Link to="/" className={botaoAmarelo}>
             Explorar eventos
           </Link>
         </div>
@@ -97,11 +98,13 @@ export default function MeusEventos() {
         {eventos.map((evento) => (
           <article
             key={evento.id}
-            className="rounded border border-borda bg-white p-5"
+            className="rounded border border-borda bg-superficie p-5 transition-colors hover:border-destaque"
           >
-            <h2 className="text-lg font-semibold">{evento.titulo}</h2>
+            <h2 className="text-lg font-semibold text-texto">
+              {evento.titulo}
+            </h2>
 
-            <div className="mt-3 space-y-1 text-sm text-tinta-suave">
+            <div className="mt-3 space-y-1 text-sm text-texto-suave">
               <p>Data: {formatarData(evento.data)}</p>
               <p>Horário: {evento.horario}</p>
               <p>Local: {evento.local}</p>
@@ -110,7 +113,7 @@ export default function MeusEventos() {
 
             <Link
               to={`/evento/${evento.id}`}
-              className="mt-4 inline-block font-semibold text-tinta underline"
+              className={botaoAmarelo}
             >
               Ver evento
             </Link>

@@ -1,5 +1,5 @@
 export interface Categoria {
-    id: number 
+    id: number
     nome: string
 }
 
@@ -13,6 +13,7 @@ export interface Evento {
     gratuito: boolean
     criado_por: number
     categorias: number[]
+    total_inscritos: number
 }
 
-export type NovoEvento = Omit<Evento, 'id'>
+export type NovoEvento = Omit<Evento, 'id' | 'total_inscritos'>

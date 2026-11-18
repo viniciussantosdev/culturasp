@@ -489,11 +489,18 @@ export default function Admin() {
                       </div>
                     </div>
 
-                    <div className="flex shrink-0 gap-2">
+                    <div className="flex shrink-0 flex-wrap gap-2">
+                      <Link
+                        to={`/evento/${evento.id}`}
+                        className="rounded-lg border border-destaque px-4 py-2 text-sm font-semibold text-destaque transition-all duration-300 hover:bg-destaque hover:text-black hover:shadow-[0_0_18px_rgba(254,227,4,0.25)]"
+                      >
+                        Ver
+                      </Link>
+
                       <button
                         type="button"
                         onClick={() => editarEvento(evento)}
-                        className="rounded-lg bg-destaque px-4 py-2 text-sm font-semibold text-black transition hover:bg-yellow-300"
+                        className="rounded-lg bg-destaque px-4 py-2 text-sm font-semibold text-black transition-all duration-300 hover:scale-105 hover:bg-yellow-300"
                       >
                         Editar
                       </button>

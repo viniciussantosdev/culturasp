@@ -75,7 +75,7 @@ class UsuarioViewSet(viewsets.ReadOnlyModelViewSet):
         )
 
         return Response(serializer.data)
-        
+
 
 class EventoViewSet(viewsets.ModelViewSet):
     queryset = Evento.objects.all()
@@ -97,7 +97,6 @@ class EventoViewSet(viewsets.ModelViewSet):
 
         return queryset.distinct()
 
-
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             return [AllowAny()]
@@ -105,6 +104,33 @@ class EventoViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(criado_por=self.request.user)
+
+    @action(
+        detail=True,
+        methods=['get'],
+        url_path='inscritos',
+        permission_classes=[EhAdministrador]
+    )
+    def inscritos(self, request, pk=None):
+        evento = self.get_object()
+
+        consulta = Interesse.objects.filter(
+            evento=evento
+        ).select_related(
+            'usuario'
+        ).order_by('-data_registro')
+
+        inscritos = [
+            {
+                'id': interesse.usuario.id,
+                'nome': interesse.usuario.first_name,
+                'email': interesse.usuario.email,
+                'data_registro': interesse.data_registro
+            }
+            for interesse in consulta
+        ]
+
+        return Response(inscritos)
 
 
 class InteresseViewSet(viewsets.ModelViewSet):
